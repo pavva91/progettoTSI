@@ -21,7 +21,7 @@ class Subscriber {
     
     // create a new Subscriber (credentials added for SuperFeedr support)
     public function __construct($hub_url, $callback_url, $credentials = false) {
-        
+
         if (!isset($hub_url))
             throw new Exception('Please specify a hub url');
         
@@ -30,7 +30,7 @@ class Subscriber {
             
         if (!isset($callback_url))
             throw new Exception('Please specify a callback');
-            
+
         $this->hub_url = $hub_url;
         $this->callback_url = $callback_url;
         $this->credentials = $credentials;

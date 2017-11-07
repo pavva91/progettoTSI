@@ -2,7 +2,7 @@
 
 //require_once('./simplepie/simplepie.inc'); OLD ver 1.3 simplepie
 require_once('./simplepie/build/compile.php');
-require_once ('./simplepie/SimplePie.compiled.php');
+require_once('./simplepie/SimplePie.compiled.php');
 
 $data = file_get_contents('./feed');
 

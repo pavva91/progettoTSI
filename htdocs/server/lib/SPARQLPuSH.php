@@ -15,7 +15,7 @@ class SPARQLPuSH {
 			include_once(dirname(__FILE__).'/SPARQLPuSHConnectorARC2.php');
 			$this->connector = new SPARQLPuSHConnectorARC2();
 		} elseif (CONNECTOR == 'SPARQL') {
-            
+
 			include_once(dirname(__FILE__).'/SPARQLPuSHConnectorSPARQL.php');
 			$this->connector = new SPARQLPuSHConnectorSPARQL();
 		}
@@ -24,6 +24,8 @@ class SPARQLPuSH {
 	// Main method
 	public function go() {
 		parse_str($_SERVER['QUERY_STRING']);
+
+
 
 		// Get / generate a feed
 		if($query) return $this->feed(trim($query));
@@ -42,6 +44,7 @@ class SPARQLPuSH {
 		}
 		// Home
 		else {
+
 			SPARQLPuSHTemplate::render(SPARQLPuSHTemplate::form(), 'sparqlPuSH home');
 		}
 	}

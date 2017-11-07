@@ -2,8 +2,14 @@
 
 require_once("./subscriber.php");
 
+
 require_once("./config.php");
+/*
 require_once('./simplepie/simplepie.inc');
+*/
+
+require_once('./simplepie/build/compile.php');
+require_once('./simplepie/SimplePie.compiled.php');
 
 parse_str($_SERVER['QUERY_STRING']);
 
@@ -28,8 +34,10 @@ function curl_get($url) {
 if($action=='r' && $query) {
 	// Get the feed
 	$url = $endpoint.'?query='.urlencode($query);
+
 	$data = file_get_contents($url);
 	$feed = new SimplePie();
+
 	$feed->set_raw_data($data);
 	$feed->init();
 	// Retrieve info
@@ -41,7 +49,7 @@ if($action=='r' && $query) {
 	$s = new Subscriber($hub.'subscribe', BASENAME."/endpoint.php");
 	$s->subscribe($url);
 	if($s) {
-		echo "Successfully registered $url to ${hub}subscribe with callback ".BASENAME."/endpoint.php";
+		echo "Successfully registered at Server's Feed:  $url <br>to Hub:  ${hub}subscribe <br>with callback:  ".BASENAME."/endpoint.php";
 	}
 }
 // Un-registration
@@ -75,7 +83,7 @@ WHERE {
 
 <br/>
 
-sparqlPuSH interface:
+sparqlPuSH interface (server SPARQL Endpoint):
 <input name=\"endpoint\" size=\"80\"/>
 
 <br/>

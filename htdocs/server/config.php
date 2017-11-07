@@ -28,8 +28,8 @@ define('SPARQL_KEY', 'key=foo');
 // Edit if CONNECTOR == 'ARC2'
 // You'll also need to download ARC2
 define('DB_HOST', 'localhost');
-define('DB_NAME', '');
-define('DB_USER', '');
+define('DB_NAME', 'DBS');
+define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_STORE', 'PuSH');
 

@@ -7,6 +7,7 @@ class SPARQLPuSHConnectorARC2 extends SPARQLPuSHConnector {
 	var $store;
 	
 	function __construct() {
+
 		$config = array(
 			'db_host' => DB_HOST,
 			'db_name' => DB_NAME,
@@ -14,6 +15,7 @@ class SPARQLPuSHConnectorARC2 extends SPARQLPuSHConnector {
 			'db_pwd' => DB_PASS,
 			'store_name' => DB_STORE,
 		);
+
 		$this->store = ARC2::getStore($config);
 		if (!$this->store->isSetUp()) {
 			$this->store->setUp();
