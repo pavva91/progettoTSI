@@ -31,6 +31,7 @@ class Subscriber {
         if (!isset($callback_url))
             throw new Exception('Please specify a callback');
 
+
         $this->hub_url = $hub_url;
         $this->callback_url = $callback_url;
         $this->credentials = $credentials;
