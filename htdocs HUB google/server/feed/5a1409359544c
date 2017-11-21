@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<title type="text">sparqlPuSH @ http://localhost/server</title>
+	<id>http://localhost/server/feed/5a1409359544c</id>
+	<updated>2017-11-21T12:08:37+01:00</updated>
+	<author>
+		<name>http://code.google.com/p/sparqlpush/</name>
+	</author>
+	<link rel="self" href="http://localhost/server/feed/5a1409359544c" title="sparqlPuSH @ http://localhost/server" type="application/atom+xml"/>
+	<link rel="hub" href="http://pubsubhubbub.appspot.com/"/>
+
+</feed>
