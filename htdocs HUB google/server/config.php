@@ -1,7 +1,7 @@
 <?php
 
 // Basename of the service - no trailing slash
-define('BASENAME', 'http://localhost/server');
+define('BASENAME', 'http://www.valeriomattioli.com/server');
 
 // PuSH Hub used to broadcast the feeds
 define('PUSH_HUB', 'http://pubsubhubbub.appspot.com/');
@@ -27,11 +27,11 @@ define('SPARQL_KEY', 'key=foo');
 
 // Edit if CONNECTOR == 'ARC2'
 // You'll also need to download ARC2
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'push');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_STORE', 'PuSH'); // DENOMINAZIONE TABELLE NEL DB LOCALE
+define('DB_HOST', '62.149.150.226');
+define('DB_NAME', 'Sql808543_3');
+define('DB_USER', 'Sql808543');
+define('DB_PASS', '6m1lneno8w');
+define('DB_STORE', 'server_push'); // DENOMINAZIONE TABELLE NEL DB LOCALE
 
 // For debugging purposes - clients may not be able to subscribe if on
 define('DEBUG', 0);

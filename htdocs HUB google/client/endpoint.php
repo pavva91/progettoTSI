@@ -6,10 +6,10 @@ $challenge = $_GET['hub_challenge'];
 
 if($challenge) {
 	// Echo the challenge to confirm subscription
-//	header('HTTP/1.1 200 "Found"', null, 200); // Risponde alla verifica dell'hub con codice HTTP 200
-    header('HTTP/1.0 400 "Not Found"', true, 400);
-//	print $challenge; // e echo challenge
-    echo $challenge;
+	header('HTTP/1.1 200 "Found"', null, 200); // Risponde alla verifica dell'hub con codice HTTP 200
+//    header('HTTP/1.0 400 "Not Found"', true, 400);
+	print $challenge; // e echo challenge
+//    echo $challenge;
 } else {
 	// Store the feed received by th PuSH hub
 	$f = fopen(dirname(__FILE__).'/feed','w');
