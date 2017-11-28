@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SO question 4112686</title>
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+      $(document).on("click", "#startbutton", function() { // When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
+          $.get("backgroundservlet",{action:"Start"}, function(responseText) {   // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+              $("#startdiv").text(responseText);           // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+              $("#stopdiv").text("");
+          });
+      });
+      $(document).on("click", "#stopbutton", function() { // When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
+          $.get("backgroundservlet",{action:"Stop"}, function(responseText) {   // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+              $("#stopdiv").text(responseText);           // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+              $("#startdiv").text("");
+          });
+      });
+  </script>
+</head>
+<body>
+<button id="startbutton">START</button>
+<div id="startdiv"></div>
+<button id="stopbutton">STOP</button>
+<div id="stopdiv"></div>
+</body>
+</html>
