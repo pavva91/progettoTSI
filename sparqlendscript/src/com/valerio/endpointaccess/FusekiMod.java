@@ -11,6 +11,8 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
+import com.valerio.vocabulary.LOMBARDIA;
+import com.valerio.vocabulary.LOMBARDIA_SENSORE;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.*;
 
@@ -19,21 +21,22 @@ import org.apache.jena.vocabulary.DCTypes;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.VCARD;
 import org.apache.jena.vocabulary.XSD;
-import org.apache.jena.query.DatasetAccessorFactory;
+
 import static org.apache.jena.sparql.vocabulary.FOAF.familyName;
 import static org.apache.jena.sparql.vocabulary.FOAF.givenName;
+
 
 public class FusekiMod {
 
 
-    /**
-     *     Carica file rdf (Path interno) in fuseki sparql endpoint es serviceURI: http://localhost:3030/<NomeDataSet>
-     *      NB Se su fuseki si seleziona "Persistent – dataset will persist across Fuseki restarts" alla creazione del
-     *      dataset questa funzione si richiama solo all'avvio
-     * @param rdf il path (ad es C://.../RDFstore.rdf) interno
-     * @param serviceURI il dataset fuseki (ad es http://localhost:3030/<NomeDataSet>NomeDataSet</NomeDataSet>)
-     * @throws IOException
-     */
+	/**
+	 *     Carica file rdf (Path interno) in fuseki sparql endpoint es serviceURI: http://localhost:3030/<NomeDataSet>
+	 *      NB Se su fuseki si seleziona "Persistent – dataset will persist across Fuseki restarts" alla creazione del
+	 *      dataset questa funzione si richiama solo all'avvio
+	 * @param rdf il path (ad es C://.../RDFstore.rdf) interno
+	 * @param serviceURI il dataset fuseki (ad es http://localhost:3030/<NomeDataSet>NomeDataSet</NomeDataSet>)
+	 * @throws IOException
+	 */
 	public void uploadRDF(File rdf, String serviceURI)
 			throws IOException {
 
@@ -43,7 +46,7 @@ public class FusekiMod {
 			m.read(in, null, "RDF/XML");
 		}
 
-        // upload the resulting model
+		// upload the resulting model
 		DatasetAccessor accessor = DatasetAccessorFactory
 				.createHTTP(serviceURI);
 		accessor.putModel(m);
@@ -51,45 +54,44 @@ public class FusekiMod {
 
 
 
-    /**
-     * Carica il DataSet Fuseki dentro Jena (classe Model)
-     * @param serviceURI
-     * @return il modello (Dataset Jena)
-     * @throws IOException
-     */
-
+	/**
+	 * Carica il DataSet Fuseki dentro Jena (classe Model)
+	 * @param serviceURI
+	 * @return il modello (Dataset Jena)
+	 * @throws IOException
+	 */
 	public static Model getRDF(String serviceURI) throws IOException{
-    	    DatasetAccessor accessor = DatasetAccessorFactory.createHTTP(serviceURI);
-	    return accessor.getModel();
+		DatasetAccessor accessor = DatasetAccessorFactory.createHTTP(serviceURI);
+		return accessor.getModel();
 
-    }
+	}
 
-    public  void updateRDF(String serviceURI, Model model){
-        DatasetAccessor accessor = DatasetAccessorFactory
-                .createHTTP(serviceURI);
-        accessor.putModel(model);
-    }
+	public  void updateRDF(String serviceURI, Model model){
+		DatasetAccessor accessor = DatasetAccessorFactory
+				.createHTTP(serviceURI);
+		accessor.putModel(model);
+	}
 
-    /**
-     *
-     * @param model
-     * @param filePath - path_assoluto/nomefile
-     * @throws IOException
-     */
-    public void writeModelOnFile(Model model, String filePath) throws IOException{
-        FileWriter out = new FileWriter(filePath);
-        try {
-            model.write( out, "RDF/XML-ABBREV" );
-        }
-        finally {
-            try {
-                out.close();
-            }
-            catch (IOException closeException) {
-                System.out.println(closeException.getMessage());
-            }
-        }
-    }
+	/**
+	 *
+	 * @param model
+	 * @param filePath - path_assoluto/nomefile
+	 * @throws IOException
+	 */
+	public void writeModelOnFile(Model model, String filePath) throws IOException{
+		FileWriter out = new FileWriter(filePath);
+		try {
+			model.write( out, "RDF/XML-ABBREV" );
+		}
+		finally {
+			try {
+				out.close();
+			}
+			catch (IOException closeException) {
+				System.out.println(closeException.getMessage());
+			}
+		}
+	}
 
 
 
@@ -121,50 +123,34 @@ public class FusekiMod {
 	}
 
 	public Double measureGenerator(int min, int max){
-        Random rn = new Random();
-        int n = max - min;
-        double i = rn.nextDouble() * n;
-        return min + i;
-    }
+		Random rn = new Random();
+		int n = max - min;
+		double i = rn.nextDouble() * n;
+		return min + i;
+	}
 
-	public  void addMeasurement(Model model, Double value){
+	public ResIterator getSensorFromId(Model model, String idsensore){
+		ResIterator iter = model.listSubjectsWithProperty(LOMBARDIA_SENSORE.idsensore,idsensore);
+		return iter;
+	}
+	public ResIterator getSensorFromTipology(Model model, String tipologia){
+		ResIterator iter = model.listSubjectsWithProperty(LOMBARDIA_SENSORE.tipologia,tipologia);
+		return iter;
+	}
 
-
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String timestampS = Objects.toString(timestamp.getTime(),null);
-
-        String sensorId = "2135"; // TODO: Prendere valore da lombardia.rdf
-
-        String measurementId = timestampS + sensorId;
-        String measurementURI = "http://localhost:3030/Lombardia/"+measurementId;
-
-        Resource measurement
-                = model.createResource(measurementURI)
-                .addProperty(ResourceFactory.createProperty("http://www.dati.lombardia.it/resource/nf78-nj6b/","idsensore"),sensorId)
-//                .addProperty(ResourceFactory.createProperty("http://localhost:3030/Lombardia/","measurementId"),measurementId)
-                .addProperty(ResourceFactory.createProperty("http://localhost:3030/Lombardia/","timestamp"),timestampS)
-                .addProperty(RDF.value, value.toString());
+	public  void addMeasurement(Model model, Double value, String sensorId){
 
 
-    }
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		String timestampS = Objects.toString(timestamp.getTime(),null);
+		String measurementId = timestampS + sensorId;
+		String measurementURI = "http://localhost:3030/Lombardia/"+measurementId;
 
-//	public static void main(String[] argv) throws IOException {
-////        uploadRDF(new File("C:/apache-jena-ontology-inference-api/src/lombardia.rdf"),"http://localhost:3030/ProvaJena");
-////		execSelectAndPrint(
-////				"http://localhost:3030/Prova",
-////				"SELECT ?x WHERE { ?y  <http://www.w3.org/2001/vcard-rdf/3.0#Family>  \"Jones\" ." +
-////                        "?z <http://www.w3.org/2001/vcard-rdf/3.0#N> ?y." +
-////                        "?z <http://www.w3.org/2001/vcard-rdf/3.0#FN> ?x}");
-////
-////		execSelectAndProcess(
-////				"http://localhost:3030/Prova",
-////				"SELECT ?x WHERE { ?x  <http://www.w3.org/2001/vcard-rdf/3.0#FN>  \"John Smith\" }");
-//        Model model = getRDF("http://localhost:3030/Lombardia");
-//        model.write(System.out, "Turtle");
-//        addValerio(model);
-//        model.write(System.out, "Turtle");
-//        updateRDF("http://localhost:3030/Lombardia",model);
-//
-//	}
-
+		// addProperty add another statement to the Model
+		Resource measurement
+				= model.createResource(measurementURI)
+				.addProperty(LOMBARDIA_SENSORE.idsensore,sensorId)
+				.addProperty(LOMBARDIA.timestamp,timestampS)
+				.addProperty(RDF.value, value.toString());
+	}
 }

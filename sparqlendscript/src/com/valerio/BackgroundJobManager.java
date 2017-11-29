@@ -4,6 +4,7 @@ package com.valerio; /**
 
 import com.valerio.job.AddOverThresholdMeasuresJob;
 import com.valerio.job.AddUnderThresholdMeasuresJob;
+import com.valerio.job.AddUponThresholdMeasuresJob;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -68,6 +69,7 @@ public class BackgroundJobManager implements ServletContextListener,
       */
         scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(new AddOverThresholdMeasuresJob(),0,5,TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(new AddUponThresholdMeasuresJob(),0,2500,TimeUnit.MILLISECONDS);
         scheduler.scheduleAtFixedRate(new AddUnderThresholdMeasuresJob(), 0, 1, TimeUnit.SECONDS);
     }
 
